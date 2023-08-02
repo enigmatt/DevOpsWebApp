@@ -1,0 +1,12 @@
+/target/classes/static/css/main.css
+/target/classes/static/js/main.js
+/target/classes/templates/index.html
+/target/classes/application.properties
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/.gitignore
+/.idea/codeStyles
+/.idea/jupyter-settings.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/DevOpsWebApp.iml

@@ -1,0 +1,491 @@
+Started by user Matt
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/Pip
+[Pipeline] {
+[Pipeline] tool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Tool Install)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Git Checkout )
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] git
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/Pip/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/enigmatt/DevOpsWebApp.git # timeout=10
+Fetching upstream changes from https://github.com/enigmatt/DevOpsWebApp.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/enigmatt/DevOpsWebApp.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 14acedab46d046f2b2e73af9cf9836c16ab1857d (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 14acedab46d046f2b2e73af9cf9836c16ab1857d # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 14acedab46d046f2b2e73af9cf9836c16ab1857d # timeout=10
+Commit message: "Taking out dependencies on slow repo."
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Code Compile)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ mvn compile
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.abhishek:spring-boot-demo >--------------------
+[INFO] Building spring-boot-demo 1.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ spring-boot-demo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ spring-boot-demo ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.868 s
+[INFO] Finished at: 2023-08-02T22:34:14Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run Test Cases)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ mvn test
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.abhishek:spring-boot-demo >--------------------
+[INFO] Building spring-boot-demo 1.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ spring-boot-demo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ spring-boot-demo ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ spring-boot-demo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /var/lib/jenkins/workspace/Pip/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ spring-boot-demo ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ spring-boot-demo ---
+[INFO] No tests to run.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.360 s
+[INFO] Finished at: 2023-08-02T22:34:19Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Sonarqube Analysis)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withSonarQubeEnv
+Injecting SonarQube environment variables using the configuration: sonarqube-server
+[Pipeline] {
+[Pipeline] sh
++ /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner/bin/sonar-scanner -Dsonar.projectName=Java-WebApp -Dsonar.java.binaries=. -Dsonar.projectKey=Java-WebApp
+INFO: Scanner configuration file: /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner/conf/sonar-scanner.properties
+INFO: Project root configuration file: NONE
+INFO: SonarScanner 4.8.0.2856
+INFO: Java 11.0.19 Eclipse Adoptium (64-bit)
+INFO: Linux 5.19.0-1029-aws amd64
+INFO: User cache: /var/lib/jenkins/.sonar/cache
+INFO: Analyzing on SonarQube server 9.9.1.69595
+INFO: Default locale: "en", source code encoding: "UTF-8" (analysis is platform dependent)
+INFO: Load global settings
+INFO: Load global settings (done) | time=147ms
+INFO: Server id: 147B411E-AYm4AL9hV3gP8iSYruxz
+INFO: User cache: /var/lib/jenkins/.sonar/cache
+INFO: Load/download plugins
+INFO: Load plugins index
+INFO: Load plugins index (done) | time=100ms
+INFO: Load/download plugins (done) | time=244ms
+INFO: Process project properties
+INFO: Process project properties (done) | time=1ms
+INFO: Execute project builders
+INFO: Execute project builders (done) | time=1ms
+INFO: Project key: Java-WebApp
+INFO: Base dir: /var/lib/jenkins/workspace/Pip
+INFO: Working dir: /var/lib/jenkins/workspace/Pip/.scannerwork
+INFO: Load project settings for component key: 'Java-WebApp'
+INFO: Load project settings for component key: 'Java-WebApp' (done) | time=39ms
+INFO: Auto-configuring with CI 'Jenkins'
+INFO: Load quality profiles
+INFO: Load quality profiles (done) | time=60ms
+INFO: Load active rules
+INFO: Load active rules (done) | time=2121ms
+INFO: Load analysis cache
+INFO: Load analysis cache (122 bytes) | time=33ms
+INFO: Load project repositories
+INFO: Load project repositories (done) | time=20ms
+INFO: Indexing files...
+INFO: Project configuration:
+INFO: 23 files indexed
+INFO: 0 files ignored because of scm ignore settings
+INFO: Quality profile for css: Sonar way
+INFO: Quality profile for java: Sonar way
+INFO: Quality profile for js: Sonar way
+INFO: Quality profile for web: Sonar way
+INFO: Quality profile for xml: Sonar way
+INFO: Quality profile for yaml: Sonar way
+INFO: ------------- Run sensors on module Java-WebApp
+INFO: Load metrics repository
+INFO: Load metrics repository (done) | time=32ms
+INFO: Sensor JavaSensor [java]
+INFO: Configured Java source version (sonar.java.source): none
+INFO: JavaClasspath initialization
+INFO: JavaClasspath initialization (done) | time=3ms
+INFO: JavaTestClasspath initialization
+INFO: JavaTestClasspath initialization (done) | time=0ms
+INFO: Server-side caching is enabled. The Java analyzer will not try to leverage data from a previous analysis.
+INFO: Using ECJ batch to parse 1 Main java source files with batch size 102 KB.
+INFO: Starting batch processing.
+INFO: The Java analyzer cannot skip unchanged files in this context. A full analysis is performed for all files.
+INFO: 100% analyzed
+INFO: Batch processing: Done.
+INFO: Did not optimize analysis for any files, performed a full analysis for all 1 files.
+WARN: Dependencies/libraries were not provided for analysis of SOURCE files. The 'sonar.java.libraries' property is empty. Verify your configuration, as you might end up with less precise results.
+WARN: Unresolved imports/types have been detected during analysis. Enable DEBUG mode to see them.
+WARN: Use of preview features have been detected during analysis. Enable DEBUG mode to see them.
+INFO: No "Test" source files to scan.
+INFO: No "Generated" source files to scan.
+INFO: Sensor JavaSensor [java] (done) | time=1424ms
+INFO: Sensor JaCoCo XML Report Importer [jacoco]
+INFO: 'sonar.coverage.jacoco.xmlReportPaths' is not defined. Using default locations: target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml,build/reports/jacoco/test/jacocoTestReport.xml
+INFO: No report imported, no coverage information will be imported by JaCoCo XML Report Importer
+INFO: Sensor JaCoCo XML Report Importer [jacoco] (done) | time=10ms
+INFO: Sensor IaC CloudFormation Sensor [iac]
+INFO: 0 source files to be analyzed
+INFO: 0/0 source files have been analyzed
+INFO: Sensor IaC CloudFormation Sensor [iac] (done) | time=30ms
+INFO: Sensor IaC Kubernetes Sensor [iac]
+INFO: 1 source file to be analyzed
+INFO: 1/1 source file has been analyzed
+INFO: Sensor IaC Kubernetes Sensor [iac] (done) | time=98ms
+INFO: Sensor JavaScript analysis [javascript]
+ERROR: Error when running: 'node -v'. Is Node.js available during analysis?
+org.sonarsource.nodejs.NodeCommandException: Error when running: 'node -v'. Is Node.js available during analysis?
+	at org.sonarsource.nodejs.NodeCommand.start(NodeCommand.java:79)
+	at org.sonarsource.nodejs.NodeCommandBuilderImpl.getVersion(NodeCommandBuilderImpl.java:203)
+	at org.sonarsource.nodejs.NodeCommandBuilderImpl.checkNodeCompatibility(NodeCommandBuilderImpl.java:169)
+	at org.sonarsource.nodejs.NodeCommandBuilderImpl.build(NodeCommandBuilderImpl.java:143)
+	at org.sonar.plugins.javascript.eslint.EslintBridgeServerImpl.initNodeCommand(EslintBridgeServerImpl.java:201)
+	at org.sonar.plugins.javascript.eslint.EslintBridgeServerImpl.startServer(EslintBridgeServerImpl.java:142)
+	at org.sonar.plugins.javascript.eslint.EslintBridgeServerImpl.startServerLazily(EslintBridgeServerImpl.java:233)
+	at org.sonar.plugins.javascript.eslint.AbstractEslintSensor.execute(AbstractEslintSensor.java:68)
+	at org.sonar.scanner.sensor.AbstractSensorWrapper.analyse(AbstractSensorWrapper.java:64)
+	at org.sonar.scanner.sensor.ModuleSensorsExecutor.execute(ModuleSensorsExecutor.java:88)
+	at org.sonar.scanner.sensor.ModuleSensorsExecutor.lambda$execute$1(ModuleSensorsExecutor.java:61)
+	at org.sonar.scanner.sensor.ModuleSensorsExecutor.withModuleStrategy(ModuleSensorsExecutor.java:79)
+	at org.sonar.scanner.sensor.ModuleSensorsExecutor.execute(ModuleSensorsExecutor.java:61)
+	at org.sonar.scanner.scan.SpringModuleScanContainer.doAfterStart(SpringModuleScanContainer.java:82)
+	at org.sonar.core.platform.SpringComponentContainer.startComponents(SpringComponentContainer.java:188)
+	at org.sonar.core.platform.SpringComponentContainer.execute(SpringComponentContainer.java:167)
+	at org.sonar.scanner.scan.SpringProjectScanContainer.scan(SpringProjectScanContainer.java:403)
+	at org.sonar.scanner.scan.SpringProjectScanContainer.scanRecursively(SpringProjectScanContainer.java:399)
+	at org.sonar.scanner.scan.SpringProjectScanContainer.doAfterStart(SpringProjectScanContainer.java:368)
+	at org.sonar.core.platform.SpringComponentContainer.startComponents(SpringComponentContainer.java:188)
+	at org.sonar.core.platform.SpringComponentContainer.execute(SpringComponentContainer.java:167)
+	at org.sonar.scanner.bootstrap.SpringGlobalContainer.doAfterStart(SpringGlobalContainer.java:137)
+	at org.sonar.core.platform.SpringComponentContainer.startComponents(SpringComponentContainer.java:188)
+	at org.sonar.core.platform.SpringComponentContainer.execute(SpringComponentContainer.java:167)
+	at org.sonar.batch.bootstrapper.Batch.doExecute(Batch.java:72)
+	at org.sonar.batch.bootstrapper.Batch.execute(Batch.java:66)
+	at org.sonarsource.scanner.api.internal.batch.BatchIsolatedLauncher.execute(BatchIsolatedLauncher.java:46)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.sonarsource.scanner.api.internal.IsolatedLauncherProxy.invoke(IsolatedLauncherProxy.java:60)
+	at com.sun.proxy.$Proxy0.execute(Unknown Source)
+	at org.sonarsource.scanner.api.EmbeddedScanner.doExecute(EmbeddedScanner.java:189)
+	at org.sonarsource.scanner.api.EmbeddedScanner.execute(EmbeddedScanner.java:138)
+	at org.sonarsource.scanner.cli.Main.execute(Main.java:126)
+	at org.sonarsource.scanner.cli.Main.execute(Main.java:81)
+	at org.sonarsource.scanner.cli.Main.main(Main.java:62)
+Caused by: java.io.IOException: Cannot run program "node": error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at org.sonarsource.nodejs.ProcessWrapperImpl.startProcess(ProcessWrapperImpl.java:39)
+	at org.sonarsource.nodejs.NodeCommand.start(NodeCommand.java:77)
+	... 37 common frames omitted
+Caused by: java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+	... 40 common frames omitted
+
+INFO: Hit the cache for 0 out of 0
+INFO: Miss the cache for 0 out of 0
+INFO: Sensor JavaScript analysis [javascript] (done) | time=2378ms
+INFO: Sensor TypeScript analysis [javascript]
+INFO: No input files found for analysis
+INFO: Hit the cache for 0 out of 0
+INFO: Miss the cache for 0 out of 0
+INFO: Sensor TypeScript analysis [javascript] (done) | time=1ms
+INFO: Sensor JavaScript inside YAML analysis [javascript]
+INFO: No input files found for analysis
+INFO: Hit the cache for 0 out of 0
+INFO: Miss the cache for 0 out of 0
+INFO: Sensor JavaScript inside YAML analysis [javascript] (done) | time=3ms
+INFO: Sensor CSS Rules [javascript]
+INFO: Hit the cache for 0 out of 0
+INFO: Miss the cache for 0 out of 0
+INFO: Sensor CSS Rules [javascript] (done) | time=1ms
+INFO: Sensor CSS Metrics [javascript]
+INFO: Sensor CSS Metrics [javascript] (done) | time=14ms
+INFO: Sensor C# Project Type Information [csharp]
+INFO: Sensor C# Project Type Information [csharp] (done) | time=1ms
+INFO: Sensor C# Analysis Log [csharp]
+INFO: Sensor C# Analysis Log [csharp] (done) | time=29ms
+INFO: Sensor C# Properties [csharp]
+INFO: Sensor C# Properties [csharp] (done) | time=0ms
+INFO: Sensor SurefireSensor [java]
+INFO: parsing [/var/lib/jenkins/workspace/Pip/target/surefire-reports]
+INFO: Sensor SurefireSensor [java] (done) | time=2ms
+INFO: Sensor HTML [web]
+INFO: Sensor HTML [web] (done) | time=179ms
+INFO: Sensor XML Sensor [xml]
+INFO: 2 source files to be analyzed
+INFO: 2/2 source files have been analyzed
+INFO: Sensor XML Sensor [xml] (done) | time=2001ms
+INFO: Sensor TextAndSecretsSensor [text]
+INFO: 11 source files to be analyzed
+INFO: 11/11 source files have been analyzed
+INFO: Sensor TextAndSecretsSensor [text] (done) | time=542ms
+INFO: Sensor VB.NET Project Type Information [vbnet]
+INFO: Sensor VB.NET Project Type Information [vbnet] (done) | time=1ms
+INFO: Sensor VB.NET Analysis Log [vbnet]
+INFO: Sensor VB.NET Analysis Log [vbnet] (done) | time=20ms
+INFO: Sensor VB.NET Properties [vbnet]
+INFO: Sensor VB.NET Properties [vbnet] (done) | time=0ms
+INFO: Sensor IaC Docker Sensor [iac]
+INFO: 1 source file to be analyzed
+INFO: 1/1 source file has been analyzed
+INFO: Sensor IaC Docker Sensor [iac] (done) | time=130ms
+INFO: ------------- Run sensors on project
+INFO: Sensor Analysis Warnings import [csharp]
+INFO: Sensor Analysis Warnings import [csharp] (done) | time=1ms
+INFO: Sensor Zero Coverage Sensor
+INFO: Sensor Zero Coverage Sensor (done) | time=15ms
+INFO: Sensor Java CPD Block Indexer
+INFO: Sensor Java CPD Block Indexer (done) | time=24ms
+INFO: SCM Publisher SCM provider for this project is: git
+INFO: SCM Publisher 3 source files to be analyzed
+INFO: SCM Publisher 0/3 source files have been analyzed (done) | time=212ms
+WARN: Missing blame information for the following files:
+WARN:   * target/classes/static/css/main.css
+WARN:   * dependency-check-report.xml
+WARN:   * target/classes/templates/index.html
+WARN: This may lead to missing/broken features in SonarQube
+INFO: CPD Executor Calculating CPD for 3 files
+INFO: CPD Executor CPD calculation finished (done) | time=61ms
+INFO: Analysis report generated in 185ms, dir size=1.8 MB
+INFO: Analysis report compressed in 145ms, zip size=325.7 kB
+INFO: Analysis report uploaded in 111ms
+INFO: ANALYSIS SUCCESSFUL, you can find the results at: http://172.26.7.24:9000/dashboard?id=Java-WebApp
+INFO: Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+INFO: More about the report processing at http://172.26.7.24:9000/api/ce/task?id=AYm4Y4O_V3gP8iSYr4rV
+INFO: Analysis total time: 15.893 s
+INFO: ------------------------------------------------------------------------
+INFO: EXECUTION SUCCESS
+INFO: ------------------------------------------------------------------------
+INFO: Total time: 18.245s
+INFO: Final Memory: 21M/74M
+INFO: ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withSonarQubeEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (OWASP Dependency Check)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] dependencyCheck
+[INFO] Checking for updates
+[INFO] Skipping NVD check since last check was within 4 hours.
+[INFO] Skipping RetireJS update since last update was within 24 hours.
+[INFO] Check for updates complete (222 ms)
+[INFO] 
+
+Dependency-Check is an open source tool performing a best effort analysis of 3rd party dependencies; false positives and false negatives may exist in the analysis performed by the tool. Use of the tool and the reporting provided constitutes acceptance for use in an AS IS condition, and there are NO warranties, implied or otherwise, with regard to the analysis or its use. Any use of the tool and the reporting provided is at the user’s risk. In no event shall the copyright holder or OWASP be held liable for any damages whatsoever arising out of or in connection with the use of this tool, the analysis performed, or the resulting report.
+
+
+   About ODC: https://jeremylong.github.io/DependencyCheck/general/internals.html
+   False Positives: https://jeremylong.github.io/DependencyCheck/general/suppression.html
+
+💖 Sponsor: https://github.com/sponsors/jeremylong
+
+
+[INFO] Analysis Started
+[INFO] Finished Archive Analyzer (1 seconds)
+[INFO] Finished File Name Analyzer (0 seconds)
+[INFO] Finished Jar Analyzer (0 seconds)
+[INFO] Finished Central Analyzer (1 seconds)
+[INFO] Finished Dependency Merging Analyzer (0 seconds)
+[INFO] Finished Version Filter Analyzer (0 seconds)
+[INFO] Finished Hint Analyzer (0 seconds)
+[INFO] Created CPE Index (4 seconds)
+[INFO] Finished CPE Analyzer (6 seconds)
+[INFO] Finished False Positive Analyzer (0 seconds)
+[INFO] Finished NVD CVE Analyzer (1 seconds)
+[INFO] Finished RetireJS Analyzer (0 seconds)
+[INFO] Finished Sonatype OSS Index Analyzer (0 seconds)
+[INFO] Finished Vulnerability Suppression Analyzer (0 seconds)
+[INFO] Finished Dependency Bundling Analyzer (0 seconds)
+[INFO] Analysis Complete (11 seconds)
+[INFO] Writing report to: /var/lib/jenkins/workspace/Pip/./dependency-check-report.xml
+[Pipeline] dependencyCheckPublisher
+Collecting Dependency-Check artifact
+Parsing file /var/lib/jenkins/workspace/Pip/dependency-check-report.xml
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Maven Build)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] sh
++ mvn clean package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.abhishek:spring-boot-demo >--------------------
+[INFO] Building spring-boot-demo 1.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ spring-boot-demo ---
+[INFO] Deleting /var/lib/jenkins/workspace/Pip/target
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ spring-boot-demo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ spring-boot-demo ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 1 source file to /var/lib/jenkins/workspace/Pip/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ spring-boot-demo ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /var/lib/jenkins/workspace/Pip/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ spring-boot-demo ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.2:test (default-test) @ spring-boot-demo ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:3.1.2:jar (default-jar) @ spring-boot-demo ---
+[INFO] Building jar: /var/lib/jenkins/workspace/Pip/target/spring-boot-web.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.2.4.RELEASE:repackage (repackage) @ spring-boot-demo ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  4.450 s
+[INFO] Finished at: 2023-08-02T22:35:04Z
+[INFO] ------------------------------------------------------------------------
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Build & Push)
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] tool
+[Pipeline] envVarsForTool
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withDockerRegistry
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker Image scan)
+Stage "Docker Image scan" skipped due to earlier failure(s)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy Container using Docker Image)
+Stage "Deploy Container using Docker Image" skipped due to earlier failure(s)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: Could not find credentials matching enigmatt649
+Finished: FAILURE
