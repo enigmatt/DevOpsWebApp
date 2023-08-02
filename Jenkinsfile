@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Git Checkout ') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/Reliable-Royalty-29/SpringBoot-WebApplication.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/enigmatt/DevOpsWebApp.git'
             }
         }
         
@@ -58,8 +58,8 @@ pipeline {
                 script {
                     withDockerRegistry(credentialsId: 'D', toolName: 'docker') {
                             sh "docker build -t webapp ."
-                            sh "docker tag webapp dheeman29/webapp:latest"
-                            sh "docker push dheeman29/webapp:latest "
+                            sh "docker tag webapp enigmatt/webapp:latest"
+                            sh "docker push enigmatt/webapp:latest "
  
                    }
                 }   
@@ -68,13 +68,13 @@ pipeline {
         
         stage('Docker Image scan') {
             steps {
-                    sh "trivy image dheeman29/webapp:latest "
+                    sh "trivy image enigmatt/webapp:latest "
             }
         }
         
          stage('Deploy Container using Docker Image') {
             steps {
-                sh 'docker run -d --name springboot -p 8087:8087 dheeman29/webapp:latest'
+                sh 'docker run -d --name springboot -p 8087:8087 enigmatt/webapp:latest'
             }
         }
         
