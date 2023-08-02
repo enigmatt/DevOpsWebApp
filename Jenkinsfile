@@ -31,7 +31,7 @@ pipeline {
         
         stage('Sonarqube Analysis') {
             steps {
-                    withSonarQubeEnv('sonar-server') {
+                    withSonarQubeEnv('sonarqube-server') {
                         sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Java-WebApp \
                         -Dsonar.java.binaries=. \
                         -Dsonar.projectKey=Java-WebApp '''
@@ -56,10 +56,10 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'D', toolName: 'docker') {
+                    withDockerRegistry(credentialsId: 'enigmatt649', toolName: 'docker') {
                             sh "docker build -t webapp ."
-                            sh "docker tag webapp enigmatt/webapp:latest"
-                            sh "docker push enigmatt/webapp:latest "
+                            sh "docker tag webapp enigmatt649/webapp:latest"
+                            sh "docker push enigmatt649/webapp:latest "
  
                    }
                 }   
@@ -68,13 +68,13 @@ pipeline {
         
         stage('Docker Image scan') {
             steps {
-                    sh "trivy image enigmatt/webapp:latest "
+                    sh "trivy image enigmatt649/webapp:latest "
             }
         }
         
          stage('Deploy Container using Docker Image') {
             steps {
-                sh 'docker run -d --name springboot -p 8087:8087 enigmatt/webapp:latest'
+                sh 'docker run -d --name springboot -p 8087:8087 enigmatt649/webapp:latest'
             }
         }
         
